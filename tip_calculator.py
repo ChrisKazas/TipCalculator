@@ -20,59 +20,72 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.'''
 
+
 # get cost of food
 def get_bill():
-    cost = input("What is the cost of the meal? ")
-    while cost.isnumeric() == False:
+    
+    try:
+        cost = float(input("What is the cost of the meal? "))
+    except Exception as e:
         print('ERROR: Value must be a number')
-        cost = input("What is the cost of the meal? ")
+        cost = float(input("What is the cost of the meal? "))
         
-    return float(cost)
+    return cost
 
 # get number of diners
 def get_num_diners():
-    usr_input = input("How many diners will be splitting the bill? ")
-    while usr_input.isnumeric() == False:
+    try:
+        usr_input = float(input("How many diners will be splitting the bill? "))
+    except Exception as e:
         print("ERROR: Value must be a number")
-        usr_input = input("How many diners will be splitting the bill? ")
+        usr_input = float(input("How many diners will be splitting the bill? "))
     
-    return int(usr_input)
+    return usr_input
 
 # get tip percentage
 def get_tip_percentage():
-    usr_input = input("What will the tip percentage be? ")
-    while usr_input.isnumeric() == False:
+    try:
+        usr_input = float(input("What will the tip percentage be? "))
+    except Exception as e:
         print("ERROR: Value must be a number")
-        usr_input = input("What will the tip percentage be? ")
+        usr_input = float(input("What will the tip percentage be? "))
         
-    return float(usr_input) / 100 
+    return usr_input / 100 
 
-#  get total bill
+# return total cost for dinner
 def get_total(bill_total, tip_rate):
     return (bill_total + (bill_total * tip_rate) + (bill_total * .1))
 
-# get the cost of dinner per diner
+# return the cost per diner
 def get_split(bill, num_diners):
     return bill / num_diners
 
+# run the program
+def calculate():
+    calcuate = "y"
+    while calcuate.lower() == "y":
+        bill_wo_tx = get_bill()
+        num_diners = get_num_diners()
+        tip_rate = get_tip_percentage()
+        total_bill = round(get_total(bill_wo_tx, tip_rate), 2)
+        split = round(get_split(total_bill, num_diners), 2)
+        
+        print('Total cost of dinner: ', total_bill)
+        print('Cost per diner: ', split)
+        
+        
+        print("Please choose Y or N")
+        calcuate = input("Would you like to calculate another tip? Y or N: ")
+        while calcuate.lower() != "y" and calcuate.lower() != 'n':
+            print("please choose Y or N")
+            calcuate = input("Would you like to calculate another tip? Y or N: ")
 
-bill_wo_tx = get_bill()
-num_diners = get_num_diners()
-tip_rate = get_tip_percentage()
-total_bill = get_total(bill_wo_tx, tip_rate)
-split = get_split(total_bill, num_diners)
+
+calculate()
 
 
 
 # unit testing
-print('##########################')
-print()
-print('##########################')
-print()
-
-print('Total cost of dinner: ', total_bill)
-print('Cost per diner: ', split)
-
 
 # Inputs
 # * Food costs $15
